@@ -6,6 +6,9 @@
 # Made by Amantur Bolotbaev
 #----------------------------------------------------------
 
+provider "aws" {
+  region = var.region
+}
 
 resource "aws_eip" "elastic_ip" {
   instance = aws_instance.web_server.id
