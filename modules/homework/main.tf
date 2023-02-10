@@ -18,16 +18,28 @@ resource "aws_eip" "elastic_ip" {
 }
 
 resource "aws_instance" "web_server" {
-  ami                    = var.ami
+  ami                    = data.aws_ami.latest_ubuntu.id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.webserver.id]
   subnet_id              = aws_subnet.public_subnets.id
-  user_data = var.user_data
+  user_data = file(user_data.sh)
   private_ip = "10.0.1.112"
   
   tags = {
     Name = "WebServer - ${terraform.workspace}"
   }
+}
+
+   
+
+
+data "aws_ami" "latest_ubuntu" {
+    owners = ["099720109477"]
+    most_recent = true
+    filter {
+        name = "name"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    }
 }
 
 resource "aws_security_group" "webserver" {
