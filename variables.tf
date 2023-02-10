@@ -17,10 +17,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "user_data" {
-  type = any
-  
-}
+
 
 variable "cidr_blocks" {
   default = "10.0.1.0/24"
